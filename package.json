@@ -1,6 +1,6 @@
 {
   "name": "@next-insurance/jenkins-pipline-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Jenkins pipeline tools for npm projects",
   "main": "index.js",
   "scripts": {
