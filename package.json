@@ -1,0 +1,23 @@
+{
+  "name": "jenkins-pipline-tools",
+  "version": "1.0.0",
+  "description": "Jenkins pipeline tools with npm install",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nitsan/jenkins-pipline-tools.git"
+  },
+  "keywords": [
+    "jenkins",
+    "pipleline",
+    "slack"
+  ],
+  "author": "Nitsan Zohar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nitsan/jenkins-pipline-tools/issues"
+  },
+  "homepage": "https://github.com/nitsan/jenkins-pipline-tools#readme"
+}
