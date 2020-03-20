@@ -1,23 +1,24 @@
 {
-  "name": "jenkins-pipline-tools",
-  "version": "1.0.1",
-  "description": "Jenkins pipeline tools with npm install",
+  "name": "@next-insurance/jenkins-pipline-tools",
+  "version": "1.0.0",
+  "description": "Jenkins pipeline tools for npm projects",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nitsan/jenkins-pipline-tools.git"
+    "url": "git+https://github.com/next-insurance/jenkins-pipline-tools.git"
   },
   "keywords": [
     "jenkins",
-    "pipleline",
+    "pipline",
     "slack"
   ],
   "author": "Nitsan Zohar",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nitsan/jenkins-pipline-tools/issues"
+    "url": "https://github.com/next-insurance/jenkins-pipline-tools/issues"
   },
-  "homepage": "https://github.com/nitsan/jenkins-pipline-tools#readme"
+  "homepage": "https://github.com/next-insurance/jenkins-pipline-tools#readme"
 }
