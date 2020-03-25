@@ -64,4 +64,24 @@ def notifyFail(currentBuild, usersMessage, slackChannel, env, finishDeploy) {
     )
 }
 
+def notifyToApi(currentBuild, env, failedStage, url) {
+    if (currentBuild.result == "SUCCESS") {
+        failedStage = ''
+    }
+    def body = """{
+                  "buildNumber": ${env.BUILD_NUMBER},
+                  "jobName": "${env.JOB_NAME}",
+                  "status": "${currentBuild.result}",
+                  "prevStatus": "${currentBuild.previousBuild.result}",
+                  "failedStep": "${failedStage}"
+              }"""
+    if (url) {
+        println("sending current job info: " + body)
+        httpRequest acceptType: 'APPLICATION_JSON',contentType: 'APPLICATION_JSON',
+                httpMode: 'POST',
+                requestBody: body,
+                url: url
+    }
+}
+
 return this
