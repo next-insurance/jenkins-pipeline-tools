@@ -27,7 +27,7 @@ def buildNotifyMessage(env, allowedEmailDomain) {
         }
     }
 
-    def gitMessage = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
+    def gitMessage = sh(returnStdout: true, script: 'git log -2 --pretty=%B').trim()
     if (gitMessage) {
         usersMessage = "${usersMessage}\n*Last git comment:*\n${gitMessage}"
     }
