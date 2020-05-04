@@ -35,9 +35,9 @@ def buildNotifyMessage(env, allowedEmailDomain) {
     return usersMessage
 }
 
-def notifySuccess(currentBuild, usersMessage, slackChannel, env) {
-    if (currentBuild.previousBuild != null && currentBuild.previousBuild.result != "SUCCESS") {
-        def message = "${env.JOB_NAME} - #${env.BUILD_NUMBER} back no normal: ${env.BUILD_URL}"
+def notifySuccess(currentBuild, usersMessage, slackChannel, env, alwaysNotify=false) {
+    if (alwaysNotify || currentBuild.previousBuild != null && currentBuild.previousBuild.result != "SUCCESS") {
+        def message = "🍾 Success!\n*Job:* ${env.JOB_NAME}\n*Build:* #${env.BUILD_NUMBER}\n*Url:* ${env.BUILD_URL}"
         if (usersMessage) {
             message = message + usersMessage
         }
@@ -54,7 +54,7 @@ def notifyFail(currentBuild, usersMessage, slackChannel, env, finishDeploy) {
         currentBuild.result = "UNSTABLE"
         color = "warning";
     }
-    def message = "${env.JOB_NAME} - #${env.BUILD_NUMBER} was failed: ${env.BUILD_URL}"
+    def message = "😓 Failed!\n*Job:* ${env.JOB_NAME}\n*Build:* #${env.BUILD_NUMBER}\n*Url:* ${env.BUILD_URL}"
     if (usersMessage) {
         message = message + usersMessage
     }
