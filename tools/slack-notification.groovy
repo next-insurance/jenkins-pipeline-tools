@@ -35,7 +35,7 @@ def buildNotifyMessage(env, allowedEmailDomain) {
     return usersMessage
 }
 
-def notifySuccess(currentBuild, usersMessage, slackChannel, env, alwaysNotify=false) {
+def notifySuccess(currentBuild, usersMessage, slackChannel, env, alwaysNotify = false) {
     if (alwaysNotify || currentBuild.previousBuild != null && currentBuild.previousBuild.result != "SUCCESS") {
         def message = "🍾 Success!\n*Job:* ${env.JOB_NAME}\n*Build:* #${env.BUILD_NUMBER}\n*Url:* ${env.BUILD_URL}"
         if (usersMessage) {
@@ -77,11 +77,36 @@ def notifyToApi(currentBuild, env, failedStage, url) {
               }"""
     if (url) {
         println("sending current job info: " + body)
-        httpRequest acceptType: 'APPLICATION_JSON',contentType: 'APPLICATION_JSON',
+        httpRequest acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_JSON',
                 httpMode: 'POST',
                 requestBody: body,
                 url: url
     }
+}
+
+def notifyDeploy(env, version, isSuccess, slackChannel) {
+    def userId
+    def usersMessage = isSuccess ? "🚀 New version successfully deployed to production!\n" : "❌ Failed to upload new version to production\n"
+    def triggeredEmail
+    wrap([$class: 'BuildUser']) {
+        triggeredEmail = env.BUILD_USER_EMAIL
+    }
+    if (version) {
+        usersMessage += "\n*Version:* $version\n"
+    }
+    if (triggeredEmail) {
+        userId = slackUserIdFromEmail(triggeredEmail)
+        if (userId) {
+            usersMessage += "\n*Job trigger:* <@$userId>\n"
+        } else {
+            usersMessage += "\n*Job trigger email:* $triggeredEmail\n"
+        }
+    }
+
+    slackSend(color: isSuccess ? "good" : "danger",
+            channel: slackChannel,
+            message: usersMessage
+    )
 }
 
 return this
