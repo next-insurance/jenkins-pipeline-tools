@@ -13,23 +13,30 @@ def buildNotifyMessage(env, allowedEmailDomain) {
         }
     }
 
-    def committerDetails = sh(returnStdout: true, script: 'git --no-pager show -s --format=\'%ae\'')
-    if (committerDetails) {
-        committerDetails = committerDetails.trim()
-        println('Last committer email: ' + committerDetails)
-        if (committerDetails.endsWith(allowedEmailDomain)) {
-            userId = slackUserIdFromEmail(committerDetails)
-            if (userId) {
-                usersMessage = usersMessage + "\n*Last committer:* <@$userId>"
+    try {
+        def committerDetails = sh(returnStdout: true, script: 'git --no-pager show -s --format=\'%ae\'')
+        if (committerDetails) {
+            committerDetails = committerDetails.trim()
+            println('Last committer email: ' + committerDetails)
+            if (committerDetails.endsWith(allowedEmailDomain)) {
+                userId = slackUserIdFromEmail(committerDetails)
+                if (userId) {
+                    usersMessage = usersMessage + "\n*Last committer:* <@$userId>"
+                }
+            } else {
+                usersMessage = usersMessage + "\n*Last committer* without ${allowedEmailDomain} email: ${committerDetails}"
             }
-        } else {
-            usersMessage = usersMessage + "\n*Last committer* without ${allowedEmailDomain} email: ${committerDetails}"
         }
+    } catch () {
+        println("Can't get last committer email")
     }
-
-    def gitMessage = sh(returnStdout: true, script: 'git log -2 --pretty=%B').trim()
-    if (gitMessage) {
-        usersMessage = "${usersMessage}\n*Last git comment:*\n${gitMessage}"
+    try {
+        def gitMessage = sh(returnStdout: true, script: 'git log -2 --pretty=%B').trim()
+            if (gitMessage) {
+                usersMessage = "${usersMessage}\n*Last git comment:*\n${gitMessage}"
+            }
+    } catch () {
+        println("Can't get last git comment")
     }
 
     return usersMessage
