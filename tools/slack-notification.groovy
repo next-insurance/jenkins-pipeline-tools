@@ -27,7 +27,7 @@ def buildNotifyMessage(env, allowedEmailDomain) {
                 usersMessage = usersMessage + "\n*Last committer* without ${allowedEmailDomain} email: ${committerDetails}"
             }
         }
-    } catch () {
+    } catch (e) {
         println("Can't get last committer email")
     }
     try {
@@ -35,7 +35,7 @@ def buildNotifyMessage(env, allowedEmailDomain) {
             if (gitMessage) {
                 usersMessage = "${usersMessage}\n*Last git comment:*\n${gitMessage}"
             }
-    } catch () {
+    } catch (e) {
         println("Can't get last git comment")
     }
 
