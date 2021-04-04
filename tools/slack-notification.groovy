@@ -80,7 +80,8 @@ def notifyToApi(currentBuild, env, failedStage, url) {
                   "jobName": "${env.JOB_NAME}",
                   "status": "${currentBuild.result}",
                   "prevStatus": "${currentBuild.previousBuild.result}",
-                  "failedStep": "${failedStage}"
+                  "failedStep": "${failedStage}",
+                  "duration": "${currentBuild.duration}"
               }"""
     if (url) {
         println("sending current job info: " + body)
